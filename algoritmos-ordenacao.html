@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>algoritmos-ordenacao.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%93%98-aula-algoritmos-de-ordena%C3%A7%C3%A3o-%E2%80%93-fundamentos-e-aplica%C3%A7%C3%B5es">📘 Aula: Algoritmos de Ordenação – Fundamentos e Aplicações</h1>
+<h2 id="%F0%9F%8C%9F-objetivo-da-aula">🌟 Objetivo da Aula</h2>
+<p>Ensinar os principais algoritmos de ordenação, explicando seu funcionamento, análise de complexidade, vantagens e desvantagens, aplicações práticas e sistemas reais que os utilizam.</p>
+<hr>
+<h2 id="%F0%9F%93%8C-conte%C3%BAdo-program%C3%A1tico">📌 Conteúdo Programático</h2>
+<ol>
+<li>Introdução à ordenação</li>
+<li>Insertion Sort</li>
+<li>Selection Sort</li>
+<li>Merge Sort</li>
+<li>Quick Sort</li>
+<li>Heap Sort</li>
+<li>Priority Queue como estrutura de ordenação</li>
+<li>Comparativo entre algoritmos</li>
+<li>Casos de uso reais detalhados</li>
+<li>Recursos visuais</li>
+<li>Quiz: Qual algoritmo escolher?</li>
+<li>Referências</li>
+</ol>
+<hr>
+<h2 id="1-%F0%9F%A7%AD-introdu%C3%A7%C3%A3o-%C3%A0-ordena%C3%A7%C3%A3o">1. 🧭 Introdução à Ordenação</h2>
+<p>A ordenação é o processo de organizar dados em uma sequência (crescente ou decrescente). Fundamental para:</p>
+<ul>
+<li>Melhorar a eficiência de buscas</li>
+<li>Otimizar algoritmos dependentes de ordem</li>
+<li>Facilitar análise e visualização</li>
+</ul>
+<hr>
+<h2 id="2-%F0%9F%93%A5-insertion-sort">2. 📥 Insertion Sort</h2>
+<ul>
+<li><strong>Funcionamento</strong>: Insere cada elemento na posição correta, como se fossem cartas na mão.</li>
+<li><strong>Complexidade</strong>:
+<ul>
+<li>Melhor caso: O(n)</li>
+<li>Pior caso: O(n²)</li>
+</ul>
+</li>
+<li><strong>Prós</strong>: Simples, bom para listas pequenas</li>
+<li><strong>Contras</strong>: Ineficiente para grandes volumes</li>
+</ul>
+<p><strong>Casos de uso reais</strong>:</p>
+<ul>
+<li>Sugestão de texto em IDEs</li>
+<li>TimSort (usado em Android e Python)</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Insertion-sort-example-300px.gif" alt="Insertion Sort"></p>
+<hr>
+<h2 id="3-%F0%9F%94%BD-selection-sort">3. 🔽 Selection Sort</h2>
+<ul>
+<li><strong>Funcionamento</strong>: Seleciona o menor elemento e coloca na primeira posição.</li>
+<li><strong>Complexidade</strong>: Sempre O(n²)</li>
+<li><strong>Prós</strong>: Poucas trocas</li>
+<li><strong>Contras</strong>: Ineficiente mesmo em melhores casos</li>
+</ul>
+<p><strong>Casos de uso reais</strong>:</p>
+<ul>
+<li>Dispositivos com EEPROM</li>
+<li>Ensino de algoritmos</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Selection-Sort-Animation.gif" alt="Selection Sort"></p>
+<hr>
+<h2 id="4-%F0%9F%94%80-merge-sort">4. 🔀 Merge Sort</h2>
+<ul>
+<li><strong>Funcionamento</strong>: Divide a lista em partes menores, ordena e mescla.</li>
+<li><strong>Complexidade</strong>: O(n log n) em todos os casos</li>
+<li><strong>Prós</strong>: Estável, eficiente em grandes dados</li>
+<li><strong>Contras</strong>: Usa memória adicional</li>
+</ul>
+<p><strong>Casos de uso reais</strong>:</p>
+<ul>
+<li>Hadoop, Spark</li>
+<li>PostgreSQL (JOIN, ORDER BY)</li>
+<li>Java (<code>Collections.sort()</code>)</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge-sort-example-300px.gif" alt="Merge Sort"></p>
+<hr>
+<h2 id="5-%E2%9A%A1-quick-sort">5. ⚡ Quick Sort</h2>
+<ul>
+<li><strong>Funcionamento</strong>: Escolhe um pivô, divide menores/maiores, aplica recursivamente</li>
+<li><strong>Complexidade</strong>:
+<ul>
+<li>Média: O(n log n)</li>
+<li>Pior: O(n²)</li>
+</ul>
+</li>
+<li><strong>Prós</strong>: Muito rápido na prática</li>
+<li><strong>Contras</strong>: Não é estável</li>
+</ul>
+<p><strong>Casos de uso reais</strong>:</p>
+<ul>
+<li>Python (<code>sort</code>)</li>
+<li><code>qsort()</code> da linguagem C</li>
+<li>Backends de APIs ordenando resultados</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif" alt="Quick Sort"></p>
+<hr>
+<h2 id="6-%E2%9B%B0%EF%B8%8F-heap-sort">6. ⛰️ Heap Sort</h2>
+<ul>
+<li><strong>Funcionamento</strong>: Constrói heap (árvore binária) e extrai ordenado</li>
+<li><strong>Complexidade</strong>: Sempre O(n log n)</li>
+<li><strong>Prós</strong>: Uso constante de memória</li>
+<li><strong>Contras</strong>: Não é estável</li>
+</ul>
+<p><strong>Casos de uso reais</strong>:</p>
+<ul>
+<li>BI Tools (PowerBI, Tableau)</li>
+<li>Equipamentos embarcados</li>
+<li>Sistemas críticos</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Heapsort-example.gif" alt="Heap Sort"></p>
+<hr>
+<h2 id="7-%F0%9F%A7%BA-priority-queue">7. 🧺 Priority Queue</h2>
+<ul>
+<li><strong>Funcionamento</strong>: Inserção e remoção baseada em prioridade (usualmente com heap)</li>
+<li><strong>Operações</strong>:
+<ul>
+<li>Inserção: O(log n)</li>
+<li>Remoção: O(log n)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Casos de uso reais</strong>:</p>
+<ul>
+<li>Sistemas operacionais (agendamento de processos)</li>
+<li>Algoritmos de IA (A* em jogos)</li>
+<li>Redes (QoS em roteadores)</li>
+</ul>
+<hr>
+<h2 id="8-%E2%9A%96%EF%B8%8F-comparativo-geral">8. ⚖️ Comparativo Geral</h2>
+<table>
+<thead>
+<tr>
+<th>Algoritmo</th>
+<th>Média</th>
+<th>Estável</th>
+<th>In-place</th>
+<th>Melhor caso</th>
+<th>Pior caso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Insertion Sort</td>
+<td>O(n²)</td>
+<td>Sim</td>
+<td>Sim</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+</tr>
+<tr>
+<td>Selection Sort</td>
+<td>O(n²)</td>
+<td>Não</td>
+<td>Sim</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+</tr>
+<tr>
+<td>Merge Sort</td>
+<td>O(n log n)</td>
+<td>Sim</td>
+<td>Não</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+</tr>
+<tr>
+<td>Quick Sort</td>
+<td>O(n log n)</td>
+<td>Não</td>
+<td>Sim</td>
+<td>O(n log n)</td>
+<td>O(n²)</td>
+</tr>
+<tr>
+<td>Heap Sort</td>
+<td>O(n log n)</td>
+<td>Não</td>
+<td>Sim</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9-%F0%9F%94%84-casos-de-uso-combinados">9. 🔄 Casos de Uso Combinados</h2>
+<table>
+<thead>
+<tr>
+<th>Sistema / Tecnologia</th>
+<th>Algoritmo(s) Aplicado(s)</th>
+<th>Justificativa Técnica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android Runtime (ART)</td>
+<td>TimSort (Insertion + Merge Sort)</td>
+<td>Ótimo desempenho com dados parcialmente ordenados</td>
+</tr>
+<tr>
+<td>PostgreSQL / MySQL</td>
+<td>Merge Sort, Heap, Priority Queue</td>
+<td>Join, Sort, agendamento de planos de execução</td>
+</tr>
+<tr>
+<td>Google Maps / Waze</td>
+<td>Priority Queue</td>
+<td>Caminho mais curto com A*</td>
+</tr>
+<tr>
+<td>Spark / Hadoop</td>
+<td>Merge Sort</td>
+<td>Ordenação de arquivos grandes (em disco)</td>
+</tr>
+<tr>
+<td>Jogos de estratégia (RTS)</td>
+<td>Priority Queue</td>
+<td>Execução de ações em tempo real com base em prioridade</td>
+</tr>
+<tr>
+<td>PowerBI / Tableau</td>
+<td>Heap Sort, Merge Sort</td>
+<td>Ordenação de dados de dashboards com muitos registros</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="10-%F0%9F%93%BA-recursos-visuais">10. 📺 Recursos Visuais</h2>
+<ul>
+<li><a href="https://visualgo.net/en/sorting">Visualgo.net</a> – Animações interativas de algoritmos</li>
+<li>GIFs utilizados são de domínio público via Wikipedia Commons</li>
+</ul>
+<hr>
+<h2 id="11-%F0%9F%8E%AF-quiz-qual-algoritmo-usar">11. 🎯 Quiz: Qual Algoritmo Usar?</h2>
+<ol>
+<li>Dados quase ordenados? → <strong>Insertion Sort</strong></li>
+<li>Muitos registros em disco? → <strong>Merge Sort</strong></li>
+<li>Alta performance com pouca memória? → <strong>Quick Sort</strong></li>
+<li>Lista pequena com escrita cara? → <strong>Selection Sort</strong></li>
+<li>Precisa extrair elementos por prioridade? → <strong>Priority Queue</strong></li>
+<li>Ambientes embarcados previsíveis? → <strong>Heap Sort</strong></li>
+</ol>
+<hr>
+<h2 id="12-%F0%9F%94%97-refer%C3%AAncias">12. 🔗 Referências</h2>
+<h3 id="livros">Livros</h3>
+<ul>
+<li><em>Introduction to Algorithms</em> – Cormen, Leiserson, Rivest, Stein (CLRS)</li>
+<li><em>Estruturas de Dados e Algoritmos em Java</em> – Robert Lafore</li>
+</ul>
+<h3 id="artigos-e-sites">Artigos e Sites</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/sorting-algorithms/">GeeksforGeeks</a></li>
+<li><a href="https://pt.khanacademy.org/computing/computer-science/algorithms">Khan Academy</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sorting_algorithm">Wikipedia: Sorting Algorithms</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html">Oracle Docs - Java Sorting</a></li>
+</ul>
+<h3 id="videos">Videos</h3>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=7GUwzd_h3pI&amp;list=PLldrzuO43P_zNudi9VTp3RDPDBRbaWW6b&amp;index=4">Insertion Sort</a></li>
+<li><a href="https://www.youtube.com/watch?v=pDY2rGdsYAE&amp;list=PLldrzuO43P_zNudi9VTp3RDPDBRbaWW6b&amp;index=5">Selection Sort</a></li>
+<li><a href="https://www.youtube.com/watch?v=BnsYGiYYdnQ&amp;list=PLldrzuO43P_zNudi9VTp3RDPDBRbaWW6b&amp;index=7">Merge Sort</a></li>
+<li><a href="https://www.youtube.com/watch?v=WP7KDljG6IM&amp;list=PLldrzuO43P_zNudi9VTp3RDPDBRbaWW6b&amp;index=6">Quick Sort</a></li>
+<li><a href="https://www.youtube.com/watch?v=bXwCZj1xipY">Heap Sort</a></li>
+<li><a href="https://www.youtube.com/watch?v=HqPJF2L5h9U&amp;t=2820s">Heap &amp; Priority Queue</a></li>
+</ul>
+
+</body>
+</html>
